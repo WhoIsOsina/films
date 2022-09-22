@@ -1,0 +1,17 @@
+.myButton {
+   padding: 5px 10px;
+   margin: 5px 5px 5px 0;
+   background: rgb(70, 124, 241);
+   border: 2px solid #fff;
+   border-radius: 4px;
+   color: #fff;
+   text-transform: uppercase;
+   font-weight: bolder;
+   font-size: 18px;
+   cursor: pointer;
+}
+
+.myButton.disabled {
+   background: rgb(73, 73, 73);
+   cursor: default;
+}

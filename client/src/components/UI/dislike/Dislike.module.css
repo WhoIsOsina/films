@@ -1,0 +1,16 @@
+.myDislikeIcon {
+   width: 0;
+   height: 0;
+   border-top: 20px solid rgba(178 34 34);
+   border-left: 10px solid transparent;
+   border-right: 10px solid transparent;
+   cursor: pointer;
+}
+
+.myDislikeText {
+   color: rgba(178 34 34);
+   font-size: 18px;
+   font-weight: bold;
+   margin-left: 5px;
+   margin-top: 5px;
+}

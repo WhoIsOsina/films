@@ -1,0 +1,9 @@
+.commentInput {
+   width: 70vw;
+   font-size: 18px;
+   height: 100px;
+   padding: 10px 5px;
+   border: 2px solid rgb(70, 124, 241);
+   border-radius: 10px 10px 10px 0;
+   background-color: #fff;
+}

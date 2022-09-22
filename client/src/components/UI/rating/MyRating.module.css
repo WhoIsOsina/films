@@ -1,0 +1,16 @@
+.myRating {
+   cursor: pointer;
+   width: 30px;
+   height: 30px;
+   text-align: center;
+   font-size: 24px;
+   line-height: 30px;
+   font-weight: bold;
+   border: 2px solid rgb(252, 235, 0);
+   border-radius: 5px;
+}
+
+.myRating:hover {
+   background-color: rgb(252, 235, 0);
+   color: #000;
+}
