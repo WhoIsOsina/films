@@ -37,10 +37,6 @@ const AddFilmPage = () => {
                   console.log(e);
                })
          }
-
-
-         console.log(trailer);
-
       }
    }
 

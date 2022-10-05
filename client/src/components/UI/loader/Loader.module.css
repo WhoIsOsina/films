@@ -1,0 +1,37 @@
+.loader_wrapper {
+   margin: 10px;
+   width: 40px;
+   height: 40px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.loader {
+   /* width: 40px;
+   height: 40px; */
+   border: 5px solid rgb(70, 124, 241);
+   border-radius: 50%;
+   animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+   0% {
+      width: 1px;
+      height: 1px;
+      border: 5px solid rgb(70, 124, 241);
+   }
+
+   50% {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgb(70, 124, 241, 0.7);
+   }
+
+   100% {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgb(70, 124, 241, 0.3);
+   }
+}

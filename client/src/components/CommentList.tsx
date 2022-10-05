@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext, UserContext } from '../context';
+import { useFetching } from '../hooks/useFetching';
 import { CommentType } from '../types/CommentType';
 import { UserType } from '../types/UserType';
 import CommentItem from './CommentItem';
 import MyButton from './UI/button/MyButton';
 import CommentInput from './UI/input/CommentInput';
+import Loader from './UI/loader/Loader';
 
 interface CommentListProps {
    filmId: number;
@@ -21,6 +23,10 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
    const [userComment, setUserComment] = useState('')
    const location = useLocation()
    const navigate = useNavigate()
+   const [fetchComments, isLoading, error] = useFetching(async () => {
+      const response = (await axios.get<CommentType[]>('http://localhost:5000/comments/films/' + filmId))
+      setComments(response.data)
+   })
 
 
    const sendComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,13 +38,6 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
          fetchComments()
       }
 
-   }
-
-   const fetchComments = async () => {
-      const response = (await axios.get<CommentType[]>('http://localhost:5000/comments/films/' + filmId))
-      console.log(response.data);
-
-      setComments(response.data)
    }
 
    useEffect(() => {
@@ -67,12 +66,19 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
             }
          </div>
          <div>КОММЕНТАРИИ</div>
-         {comments?.length
-            ? comments.map((comment: CommentType) =>
-               <CommentItem key={comment.id} comment={comment} />
-            )
+         {isLoading
+            ?
+            <Loader />
             :
-            <div style={{ fontSize: '24px', marginTop: '15px' }}>Комментарии не найдены</div>
+            <div>
+               {comments?.length
+                  ? comments.map((comment: CommentType) =>
+                     <CommentItem key={comment.id} comment={comment} />
+                  )
+                  :
+                  <div style={{ fontSize: '24px', marginTop: '15px' }}>Комментарии не найдены</div>
+               }
+            </div>
          }
       </div>
    );
