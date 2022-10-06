@@ -18,7 +18,7 @@ export const useFetching = (callback: any) => {
                setError(error.message)
                setIsLoading(false)
             })
-      }, 2000)
+      }, 500)
    }
 
    return [fetching, isLoading, error] as const

@@ -115,6 +115,24 @@ var RatingService = /** @class */ (function () {
             });
         });
     };
+    RatingService.prototype.deleteRate = function (dto) {
+        return __awaiter(this, void 0, void 0, function () {
+            var film;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(dto);
+                        return [4 /*yield*/, this.ratingRepository.delete({ userId: dto.userId, filmId: dto.filmId, rate: dto.rate })];
+                    case 1:
+                        film = _a.sent();
+                        if (film.affected === 0) {
+                            throw new common_1.HttpException('ERROR', common_1.HttpStatus.BAD_REQUEST);
+                        }
+                        return [2 /*return*/, 'deleted'];
+                }
+            });
+        });
+    };
     RatingService = __decorate([
         (0, common_1.Injectable)(),
         __metadata("design:paramtypes", [users_service_1.UsersService,

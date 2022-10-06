@@ -32,6 +32,9 @@ var RatingController = /** @class */ (function () {
     RatingController.prototype.getRatesByUserId = function (id) {
         return this.ratingService.getRatesByUserId(id);
     };
+    RatingController.prototype.deleteRate = function (dto) {
+        return this.ratingService.deleteRate(dto);
+    };
     __decorate([
         (0, common_1.Post)(),
         __param(0, (0, common_1.Body)()),
@@ -59,6 +62,13 @@ var RatingController = /** @class */ (function () {
         __metadata("design:paramtypes", [Number]),
         __metadata("design:returntype", void 0)
     ], RatingController.prototype, "getRatesByUserId", null);
+    __decorate([
+        (0, common_1.Delete)(),
+        __param(0, (0, common_1.Body)()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [rateFilm_dto_1.RateFilmDto]),
+        __metadata("design:returntype", void 0)
+    ], RatingController.prototype, "deleteRate", null);
     RatingController = __decorate([
         (0, common_1.Controller)('rating'),
         __metadata("design:paramtypes", [rating_service_1.RatingService])

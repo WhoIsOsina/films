@@ -1,6 +1,6 @@
 import { RateFilmDto } from './dto/rateFilm.dto';
 import { RatingService } from './rating.service';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 
 @Controller('rating')
 export class RatingController {
@@ -24,5 +24,10 @@ export class RatingController {
    @Get('user/:id')
    getRatesByUserId(@Param('id') id: number) {
       return this.ratingService.getRatesByUserId(id)
+   }
+
+   @Delete()
+   deleteRate(@Body() dto: RateFilmDto) {
+      return this.ratingService.deleteRate(dto)
    }
 }

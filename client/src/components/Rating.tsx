@@ -55,6 +55,22 @@ const Rating: FC<PropsWithChildren<RatingProps>> = ({ filmId, user }) => {
          })
    }
 
+   const removeRate = async () => {
+      if (userRate) {
+         const dto: RateType = { userId: user!.id, filmId: filmId, rate: userRate }
+         console.log(dto);
+
+         const response = await axios.delete('http://localhost:5000/rating', { data: dto })
+            .then(() => {
+               setUserRate(null)
+               setCanRate(true)
+            })
+            .catch((err) => {
+               console.log(err);
+            })
+      }
+   }
+
    useEffect(() => {
       fetchFilmRates(filmId)
    }, [canRate, isAuth])
@@ -82,7 +98,10 @@ const Rating: FC<PropsWithChildren<RatingProps>> = ({ filmId, user }) => {
                </div>
             )
             : ((!canRate && isAuth) ? (
-               <div>Вы оценили этот фильм на {userRate}</div>
+               <div>
+                  <div>Вы оценили этот фильм на {userRate}</div>
+                  <div style={{ fontSize: '14px', color: 'grey', cursor: 'pointer' }} onClick={removeRate}>ИЗМЕНИТЬ ОЦЕНКУ</div>
+               </div>
             )
                : <div style={{ textAlign: 'center', textTransform: 'none', fontWeight: '200' }}>
                   <span

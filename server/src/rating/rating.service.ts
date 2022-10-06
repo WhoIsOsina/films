@@ -1,9 +1,10 @@
+import { Film } from './../entity/Film.entity';
 import { FilmsService } from './../films/films.service';
 import { UsersService } from './../users/users.service';
 import { RateFilmDto } from './dto/rateFilm.dto';
 import { Rate } from './../entity/Rates.entity';
 import { AppDataSource } from './../data-source';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class RatingService {
@@ -32,5 +33,15 @@ export class RatingService {
    async getRatesByUserId(id: number): Promise<Rate[]> {
       const rates = await this.ratingRepository.find({ where: { userId: id }, relations: { film: true, user: true } })
       return rates
+   }
+
+   async deleteRate(dto: RateFilmDto): Promise<string> {
+      console.log(dto);
+
+      const film = await this.ratingRepository.delete({ userId: dto.userId, filmId: dto.filmId, rate: dto.rate })
+      if (film.affected === 0) {
+         throw new HttpException('ERROR', HttpStatus.BAD_REQUEST)
+      }
+      return 'deleted'
    }
 }
