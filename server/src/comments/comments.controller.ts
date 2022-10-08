@@ -1,7 +1,7 @@
 import { UserLikeDto } from './dto/userLike.dto';
 import { AddCommentDto } from './dto/AddComment.dto';
 import { CommentsService } from './comments.service';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 
 @Controller('comments')
 export class CommentsController {
@@ -40,5 +40,10 @@ export class CommentsController {
    @Put('dislike/:id')
    addDislikeToComment(@Param('id') id: number, @Body() dto: UserLikeDto) {
       return this.commentsService.addDislikeToComment(id, dto)
+   }
+
+   @Delete(':id')
+   deleteComment(@Param('id') id: number) {
+      return this.commentsService.deleteComment(id)
    }
 }

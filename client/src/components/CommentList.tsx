@@ -73,7 +73,7 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
             <div>
                {comments?.length
                   ? comments.map((comment: CommentType) =>
-                     <CommentItem key={comment.id} comment={comment} />
+                     <CommentItem key={comment.id} comment={comment} onDelete={fetchComments} />
                   )
                   :
                   <div style={{ fontSize: '24px', marginTop: '15px' }}>Комментарии не найдены</div>

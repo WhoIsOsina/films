@@ -1,19 +1,22 @@
 import axios from 'axios';
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { UserContext } from '../context';
+import { AdminContext, UserContext } from '../context';
 import { CommentType } from '../types/CommentType';
 import { UserType } from '../types/UserType';
+import Delete from './UI/delete/Delete';
 import Dislike from './UI/dislike/Dislike';
 import Like from './UI/like/Like';
 
 
 interface CommentProps {
    comment: CommentType;
+   onDelete: () => void
 }
 
-const CommentItem: FC<CommentProps> = ({ comment }) => {
+const CommentItem: FC<CommentProps> = ({ comment, onDelete }) => {
    const { user, setUser } = useContext(UserContext)
    const [commentState, setCommentState] = useState(comment)
+   const { isAdmin, setIsAdmin } = useContext(AdminContext)
 
    async function like() {
       const dto = { userId: user?.id }
@@ -41,6 +44,11 @@ const CommentItem: FC<CommentProps> = ({ comment }) => {
       setCommentState(response.data)
    }
 
+   async function deleteComment() {
+      const response = await axios.delete("http://localhost:5000/comments/" + comment.id)
+      onDelete()
+   }
+
 
    useEffect(() => {
       fetchComment()
@@ -54,6 +62,7 @@ const CommentItem: FC<CommentProps> = ({ comment }) => {
                <Like onClick={like}>{commentState.likes}</Like>
                <Dislike onClick={dislike}>{commentState.dislikes}</Dislike>
             </div>
+            {isAdmin && <Delete onClick={deleteComment} />}
          </div>
       </div>
    );

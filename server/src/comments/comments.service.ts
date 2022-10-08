@@ -72,5 +72,10 @@ export class CommentsService {
       return comment;
    }
 
+   async deleteComment(id: number): Promise<string> {
+      const comment = await this.commentsRepository.delete({ id })
+      return 'deleted'
+   }
+
 
 }

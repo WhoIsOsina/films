@@ -42,6 +42,9 @@ var CommentsController = /** @class */ (function () {
     CommentsController.prototype.addDislikeToComment = function (id, dto) {
         return this.commentsService.addDislikeToComment(id, dto);
     };
+    CommentsController.prototype.deleteComment = function (id) {
+        return this.commentsService.deleteComment(id);
+    };
     __decorate([
         (0, common_1.Post)(),
         __param(0, (0, common_1.Body)()),
@@ -92,6 +95,13 @@ var CommentsController = /** @class */ (function () {
         __metadata("design:paramtypes", [Number, userLike_dto_1.UserLikeDto]),
         __metadata("design:returntype", void 0)
     ], CommentsController.prototype, "addDislikeToComment", null);
+    __decorate([
+        (0, common_1.Delete)(':id'),
+        __param(0, (0, common_1.Param)('id')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Number]),
+        __metadata("design:returntype", void 0)
+    ], CommentsController.prototype, "deleteComment", null);
     CommentsController = __decorate([
         (0, common_1.Controller)('comments'),
         __metadata("design:paramtypes", [comments_service_1.CommentsService])
