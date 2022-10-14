@@ -216,6 +216,21 @@ var CommentsService = /** @class */ (function () {
             });
         });
     };
+    CommentsService.prototype.updateComment = function (dto) {
+        return __awaiter(this, void 0, void 0, function () {
+            var comment;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(dto.content);
+                        return [4 /*yield*/, this.commentsRepository.update(dto.id, { content: dto.content, updated: true })];
+                    case 1:
+                        comment = _a.sent();
+                        return [2 /*return*/, 'updated'];
+                }
+            });
+        });
+    };
     CommentsService = __decorate([
         (0, common_1.Injectable)(),
         __metadata("design:paramtypes", [users_service_1.UsersService,

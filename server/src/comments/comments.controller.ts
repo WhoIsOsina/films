@@ -1,3 +1,4 @@
+import { UpdateCommentDto } from './dto/UpdateComment.dto';
 import { UserLikeDto } from './dto/userLike.dto';
 import { AddCommentDto } from './dto/AddComment.dto';
 import { CommentsService } from './comments.service';
@@ -45,5 +46,10 @@ export class CommentsController {
    @Delete(':id')
    deleteComment(@Param('id') id: number) {
       return this.commentsService.deleteComment(id)
+   }
+
+   @Put('update')
+   updateComment(@Body() dto: UpdateCommentDto) {
+      return this.commentsService.updateComment(dto)
    }
 }

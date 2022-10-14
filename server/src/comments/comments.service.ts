@@ -1,3 +1,4 @@
+import { UpdateCommentDto } from './dto/UpdateComment.dto';
 import { UserLikeDto } from './dto/userLike.dto';
 import { User } from './../entity/User.entity';
 import { Comment } from './../entity/Comment.entity';
@@ -75,6 +76,13 @@ export class CommentsService {
    async deleteComment(id: number): Promise<string> {
       const comment = await this.commentsRepository.delete({ id })
       return 'deleted'
+   }
+
+   async updateComment(dto: UpdateCommentDto): Promise<String> {
+      console.log(dto.content);
+
+      const comment = await this.commentsRepository.update(dto.id, { content: dto.content, updated: true });
+      return 'updated'
    }
 
 

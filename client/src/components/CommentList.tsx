@@ -21,6 +21,8 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
    const { user, setUser } = useContext(UserContext)
    const [comments, setComments] = useState<CommentType[]>()
    const [userComment, setUserComment] = useState('')
+   const [isChanging, setIsChanging] = useState(false)
+   const [updatingComment, setUpdatingComment] = useState<CommentType>()
    const location = useLocation()
    const navigate = useNavigate()
    const [fetchComments, isLoading, error] = useFetching(async () => {
@@ -37,10 +39,17 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
          setUserComment('')
          fetchComments()
       }
+   }
 
+   const updateComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      const dto = { id: updatingComment?.id, content: userComment }
+      setIsChanging(false)
+      await axios.put('http://localhost:5000/comments/update', dto)
+      setUserComment('')
    }
 
    useEffect(() => {
+      setIsChanging(false)
       fetchComments()
 
    }, [setComments])
@@ -53,7 +62,12 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
                   <div style={{ margin: '0px 0px 10px -10px' }}>Оставьте комментарий</div>
                   <form style={{ marginLeft: '-10px' }}>
                      <CommentInput onChange={(e) => setUserComment(e.target.value)} placeholder='Введите текст комментария' value={userComment} />
-                     <MyButton onClick={sendComment}>Отправить</MyButton>
+                     {isChanging
+                        ?
+                        <MyButton onClick={updateComment}>Обновить</MyButton>
+                        :
+                        <MyButton onClick={sendComment}>Отправить</MyButton>
+                     }
                   </form>
                </div>
                : <div style={{ textAlign: 'center', textTransform: 'none', fontWeight: '200' }}>
@@ -73,7 +87,7 @@ const CommentList: FC<CommentListProps> = ({ filmId }) => {
             <div>
                {comments?.length
                   ? comments.map((comment: CommentType) =>
-                     <CommentItem key={comment.id} comment={comment} onDelete={fetchComments} />
+                     <CommentItem key={comment.id} comment={comment} onDelete={fetchComments} setIsChanging={setIsChanging} setUpdatingComment={setUpdatingComment} setUserComment={setUserComment} />
                   )
                   :
                   <div style={{ fontSize: '24px', marginTop: '15px' }}>Комментарии не найдены</div>

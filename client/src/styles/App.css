@@ -241,9 +241,21 @@
    display: flex;
 }
 
+.comment__block_header {
+   display: flex;
+}
+
 .comment__block_user {
    color: rgb(70, 124, 241);
    font-weight: bold;
+}
+
+.comment__block_action {
+   position: absolute;
+   top: 0;
+   right: 0;
+   display: flex;
+   justify-content: space-between;
 }
 
 .user__page {

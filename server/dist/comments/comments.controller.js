@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentsController = void 0;
+var UpdateComment_dto_1 = require("./dto/UpdateComment.dto");
 var userLike_dto_1 = require("./dto/userLike.dto");
 var AddComment_dto_1 = require("./dto/AddComment.dto");
 var comments_service_1 = require("./comments.service");
@@ -44,6 +45,9 @@ var CommentsController = /** @class */ (function () {
     };
     CommentsController.prototype.deleteComment = function (id) {
         return this.commentsService.deleteComment(id);
+    };
+    CommentsController.prototype.updateComment = function (dto) {
+        return this.commentsService.updateComment(dto);
     };
     __decorate([
         (0, common_1.Post)(),
@@ -102,6 +106,13 @@ var CommentsController = /** @class */ (function () {
         __metadata("design:paramtypes", [Number]),
         __metadata("design:returntype", void 0)
     ], CommentsController.prototype, "deleteComment", null);
+    __decorate([
+        (0, common_1.Put)('update'),
+        __param(0, (0, common_1.Body)()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [UpdateComment_dto_1.UpdateCommentDto]),
+        __metadata("design:returntype", void 0)
+    ], CommentsController.prototype, "updateComment", null);
     CommentsController = __decorate([
         (0, common_1.Controller)('comments'),
         __metadata("design:paramtypes", [comments_service_1.CommentsService])
