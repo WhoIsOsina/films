@@ -71,7 +71,9 @@ var FilmsService = /** @class */ (function () {
             var picturePath, videoPath, film;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.filesService.saveFile(files_service_1.FileType.PICTURE, picture)];
+                    case 0:
+                        if (!(picture && video)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.filesService.saveFile(files_service_1.FileType.PICTURE, picture)];
                     case 1:
                         picturePath = _a.sent();
                         return [4 /*yield*/, this.filesService.saveFile(files_service_1.FileType.VIDEO, video)];
@@ -81,6 +83,7 @@ var FilmsService = /** @class */ (function () {
                     case 3:
                         film = _a.sent();
                         return [2 /*return*/, film];
+                    case 4: return [2 /*return*/];
                 }
             });
         });

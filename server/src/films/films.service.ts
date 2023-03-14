@@ -10,10 +10,12 @@ export class FilmsService {
    constructor(private filesService: FilesService) { }
 
    async addFilm(dto: AddFilmDto, picture, video): Promise<Film> {
-      const picturePath = await this.filesService.saveFile(FileType.PICTURE, picture)
-      const videoPath = await this.filesService.saveFile(FileType.VIDEO, video)
-      const film = await this.filmRepository.save({ ...dto, picture: picturePath, video: videoPath })
-      return film;
+      if (picture && video) {
+         const picturePath = await this.filesService.saveFile(FileType.PICTURE, picture)
+         const videoPath = await this.filesService.saveFile(FileType.VIDEO, video)
+         const film = await this.filmRepository.save({ ...dto, picture: picturePath, video: videoPath })
+         return film;
+      }
    }
 
    async getAllFilms(): Promise<Film[]> {

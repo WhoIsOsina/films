@@ -7,15 +7,20 @@ import MyInput from './UI/input/MyInput';
 import jwt from 'jwt-decode'
 import { RateType } from '../types/RateType';
 import { UserType } from '../types/UserType';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { setUser } from '../store/userReducer';
 
 
 const Login = () => {
+   const dispatch = useDispatch()
+   //const user = useSelector((state: RootState) => state.userReducer.user)
    const [login, setLogin] = useState('')
    const [password, setPassword] = useState('')
    const [isError, setIsError] = useState(false)
    const [textError, setTextError] = useState('')
    const { isAuth, setIsAuth } = useContext(AuthContext)
-   const { user, setUser } = useContext(UserContext)
+   //const { user, setUser } = useContext(UserContext)
    const { isAdmin, setIsAdmin } = useContext(AdminContext)
    const navigate = useNavigate()
    let location = useLocation()
@@ -32,18 +37,19 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/auth/login', dto)
          .then((response) => {
             const user: UserType = jwt(response.data.token)
-            setIsAuth(true)
-            localStorage.setItem('auth', 'true')
-            setUser(user)
+            //setIsAuth(true)
+            dispatch(setUser(user))
+            console.log(user)
+            //setUser(user)
             localStorage.setItem('token', response.data.token)
-            console.log(user.roles);
+            //console.log(user.roles);
 
-            if (user.roles.some((role) => role.role.includes('ADMIN'))) {
-               localStorage.setItem('isAdmin', 'true')
-               setIsAdmin(true)
-            }
+            // if (user.roles.some((role) => role.role.includes('ADMIN'))) {
+            //    localStorage.setItem('isAdmin', 'true')
+            //    setIsAdmin(true)
+            // }
             navigate(from, { replace: true })
-            console.log(user);
+            return user
 
          })
          .catch((error) => {

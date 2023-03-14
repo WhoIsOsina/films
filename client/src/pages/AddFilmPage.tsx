@@ -12,7 +12,9 @@ const AddFilmPage = () => {
    const [genre, setGenre] = useState('')
    const [activeStep, setActiveStep] = useState(0)
    const [image, setImage] = useState<File>()
+   const [imageName, setImageName] = useState('')
    const [trailer, setTrailer] = useState<File>()
+   const [trailerName, settrailerName] = useState('')
    const navigate = useNavigate()
 
    function next() {
@@ -88,26 +90,46 @@ const AddFilmPage = () => {
             {activeStep === 1 &&
                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <h2 style={{ color: '#fff', marginBottom: '10px' }}>Загрузите обложку фильма</h2>
-                  <div className="input__wrapper">
-                     <input name="file" type="file" id="input__file" className="input input__file" multiple onChange={(e) => setImage(e.target.files![0])} />
-                     <label htmlFor="input__file" className="input__file-button" >
-                        {/* <span className="input__file-icon-wrapper"><img className="input__file-icon" src="./img/add.svg" alt="Выбрать файл" width="25" /></span> */}
-                        <span className="input__file-button-text">Выберите файл</span>
-                     </label>
-                  </div>
+                  {image
+                     ?
+                     <span style={{ color: "#fff" }}>Файл
+                        <strong> {imageName} </strong>
+                        загружен</span>
+                     :
+                     <div className="input__wrapper">
+                        <input name="file" type="file" id="input__file" className="input input__file" multiple onChange={(e) => {
+                           setImageName(e.target.files![0].name)
+                           setImage(e.target.files![0])
+                        }} />
+                        <label htmlFor="input__file" className="input__file-button" >
+                           <span className="input__file-button-text">Выберите файл</span>
+                           {/* <span className="input__file-icon-wrapper"><img className="input__file-icon" src="./img/add.svg" alt="Выбрать файл" width="25" /></span> */}
+                        </label>
+                     </div>
+                  }
                </div>
             }
 
             {activeStep === 2 &&
                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <h2 style={{ color: '#fff', marginBottom: '10px' }}>Загрузите трейлер</h2>
-                  <div className="input__wrapper">
-                     <input name="file" type="file" id="input__file" className="input input__file" multiple onChange={(e) => setTrailer(e.target.files![0])} />
-                     <label htmlFor="input__file" className="input__file-button" >
-                        {/* <span className="input__file-icon-wrapper"><img className="input__file-icon" src="./img/add.svg" alt="Выбрать файл" width="25" /></span> */}
-                        <span className="input__file-button-text">Выберите файл</span>
-                     </label>
-                  </div>
+                  {trailer
+                     ?
+                     <span style={{ color: "#fff" }}>Файл
+                        <strong> {trailerName} </strong>
+                        загружен</span>
+                     :
+                     <div className="input__wrapper">
+                        <input name="file" type="file" id="input__file" className="input input__file" multiple onChange={(e) => {
+                           settrailerName(e.target.files![0].name)
+                           setTrailer(e.target.files![0])
+                        }} />
+                        <label htmlFor="input__file" className="input__file-button" >
+                           {/* <span className="input__file-icon-wrapper"><img className="input__file-icon" src="./img/add.svg" alt="Выбрать файл" width="25" /></span> */}
+                           <span className="input__file-button-text">Выберите файл</span>
+                        </label>
+                     </div>
+                  }
                </div>
             }
 

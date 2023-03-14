@@ -11,6 +11,7 @@ export enum FileType {
 @Injectable()
 export class FilesService {
    async saveFile(fileType: FileType, file) {
+      console.log(file)
       const fileExpansion = file[0].originalname.split('.').pop()
       const fileName = uuid.v4() + '.' + fileExpansion;
       const filePath = path.resolve(__dirname, '..', 'static', fileType);

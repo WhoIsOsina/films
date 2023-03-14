@@ -1,3 +1,4 @@
+import { SortType } from './../types/SortType';
 import { UserType } from './../types/UserType';
 import { createContext, useContext } from "react";
 
@@ -49,3 +50,27 @@ export const AdminContext = createContext<AdminContent>({
 })
 
 export const useAdminContext = () => useContext(AdminContext)
+
+export type MenuContent = {
+   menuIsActive: boolean;
+   setMenuIsActive: (isActive: boolean) => void;
+}
+
+export const MenuContext = createContext<MenuContent>({
+   menuIsActive: false,
+   setMenuIsActive: (isAcive: boolean) => { }
+})
+
+export const useMenuContext = () => useContext(MenuContext)
+
+export type SortContent = {
+   sortMech: SortType;
+   setSortMech: (sortMech: SortType) => void;
+}
+
+export const SortContext = createContext<SortContent>({
+   sortMech: { year: [1900, 2050] },
+   setSortMech: (sortMech: SortType) => { }
+})
+
+export const useSortContext = () => useContext(SortContext)

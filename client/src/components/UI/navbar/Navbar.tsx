@@ -1,30 +1,49 @@
 import jwt from 'jwt-decode';
 import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AdminContext, AuthContext, SearchContext, UserContext } from '../../../context';
+import { RootState } from '../../../store/store';
+import { setUser, dropUser } from '../../../store/userReducer';
+import { RoleType } from '../../../types/RoleType';
+import { UserType } from '../../../types/UserType';
 import AdminButton from '../button/AdminButton';
 import MyButton from '../button/MyButton';
 import MyInput from '../input/MyInput';
 import SearchInput from '../input/SearchInput';
+import Menu from '../menu/Menu';
 
 const Navbar = () => {
-
-   const { isAuth, setIsAuth } = useContext(AuthContext)
-   const { user, setUser } = useContext(UserContext)
-   const { isAdmin, setIsAdmin } = useContext(AdminContext)
+   const dispatch = useDispatch()
+   const user = useSelector((state: RootState) => state.userReducer.user)
+   const [isAuth, setIsAuth] = useState(false)
+   //const { user, setUser } = useContext(UserContext)
+   const [isAdmin, setIsAdmin] = useState(false)
    const { query, setQuery } = useContext(SearchContext)
    const [searchQuery, setSearchQuery] = useState('')
    const navigate = useNavigate()
 
    function logout() {
-      localStorage.removeItem('auth')
-      localStorage.removeItem('token')
-      localStorage.removeItem('isAdmin')
       setIsAuth(false)
       setIsAdmin(false)
+      dispatch(dropUser())
+      localStorage.removeItem('token')
       navigate('/')
       //console.log(localStorage);
    }
+
+   useEffect(() => {
+      if (user) {
+         setIsAuth(true)
+         if (user?.roles.some((role: RoleType) => role.role.includes('ADMIN'))) {
+            setIsAdmin(true)
+            console.log('ADMIN')
+         }
+      } else if (localStorage.getItem('token')) {
+         const user = jwt(localStorage.token)
+         dispatch(setUser(user))
+      }
+   }, [user])
 
 
    return (

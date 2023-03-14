@@ -59,6 +59,7 @@ var FilesService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var fileExpansion, fileName, filePath, fullPath;
             return __generator(this, function (_a) {
+                console.log(file);
                 fileExpansion = file[0].originalname.split('.').pop();
                 fileName = uuid.v4() + '.' + fileExpansion;
                 filePath = path.resolve(__dirname, '..', 'static', fileType);

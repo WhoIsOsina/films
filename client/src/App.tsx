@@ -6,7 +6,7 @@ import MyButton from './components/UI/button/MyButton';
 import MyInput from './components/UI/input/MyInput';
 import Navbar from './components/UI/navbar/Navbar';
 import jwt from 'jwt-decode'
-import { AdminContext, AuthContext, SearchContext, UserContext } from './context';
+import { AdminContext, AuthContext, MenuContext, SearchContext, SortContext, UserContext } from './context';
 import FilmIdPage from './pages/FilmIdPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
@@ -14,20 +14,35 @@ import './styles/App.css'
 import { UserType } from './types/UserType';
 import UserPage from './pages/UserPage';
 import AddFilmPage from './pages/AddFilmPage';
+import { SortType } from './types/SortType';
+//import { Provider } from 'react-redux/es/exports';
+import { store } from './store/store';
+import { useDispatch, Provider } from 'react-redux';
+import { setUser } from './store/userReducer';
+import { RoleType } from './types/RoleType';
+
 
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false)
+
+  const sortMechanism: SortType = {
+    year: [1900, 2050]
+  }
+
+  //const dispatch = useDispatch()
+  //const [isAuth, setIsAuth] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [menuIsActive, setMenuIsActive] = useState(false)
   const [user, setUser] = useState<UserType | null>(null)
   const [query, setQuery] = useState('')
+  const [sortMech, setSortMech] = useState<SortType>(sortMechanism)
 
   useEffect(() => {
-    if (localStorage.getItem('auth')) {
+    console.log(localStorage)
+    if (localStorage.getItem('token')) {
       const user: UserType = jwt(localStorage.token)
       setUser(user)
-      setIsAuth(true)
-      if (localStorage.getItem('isAdmin')) {
+      if (user.roles.some((role: RoleType) => role.role.includes("ADMIN"))) {
         setIsAdmin(true)
       }
     }
@@ -37,33 +52,35 @@ function App() {
 
 
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth }}>
-      <UserContext.Provider value={{ user, setUser }}>
-        <AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
-          <SearchContext.Provider value={{ query, setQuery }}>
-            <BrowserRouter>
-              <Navbar />
-              {isAuth
-                ? <Routes>
-                  {isAdmin && <Route path='/films/add' element={<AddFilmPage />} />}
-                  <Route path='/films' element={<MainPage />} />
-                  <Route path='/films/:id' element={<FilmIdPage />} />
-                  <Route path='/users/:id' element={<UserPage />} />
-                  <Route path='*' element={<Navigate replace to='/films' />} />
-                </Routes>
-                : <Routes>
-                  <Route path='/registration' element={<Registration />} />
-                  <Route path='/login' element={<LoginPage />} />
-                  <Route path='/films' element={<MainPage />} />
-                  <Route path='/films/:id' element={<FilmIdPage />} />
-                  <Route path='*' element={<Navigate replace to='/films' />} />
-                </Routes>
-              }
-            </BrowserRouter>
-          </SearchContext.Provider>
-        </AdminContext.Provider>
-      </UserContext.Provider>
-    </AuthContext.Provider>
+    <Provider store={store}>
+      <AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
+        <SearchContext.Provider value={{ query, setQuery }}>
+          <MenuContext.Provider value={{ menuIsActive, setMenuIsActive }}>
+            <SortContext.Provider value={{ sortMech, setSortMech }}>
+              <BrowserRouter>
+                <Navbar />
+                {user
+                  ? <Routes>
+                    {isAdmin && <Route path='/films/add' element={<AddFilmPage />} />}
+                    <Route path='/films' element={<MainPage />} />
+                    <Route path='/films/:id' element={<FilmIdPage />} />
+                    <Route path='/users/:id' element={<UserPage />} />
+                    <Route path='*' element={<Navigate replace to='/films' />} />
+                  </Routes>
+                  : <Routes>
+                    <Route path='/registration' element={<Registration />} />
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/films' element={<MainPage />} />
+                    <Route path='/films/:id' element={<FilmIdPage />} />
+                    <Route path='*' element={<Navigate replace to='/films' />} />
+                  </Routes>
+                }
+              </BrowserRouter>
+            </SortContext.Provider>
+          </MenuContext.Provider>
+        </SearchContext.Provider>
+      </AdminContext.Provider>
+    </Provider>
   );
 }
 

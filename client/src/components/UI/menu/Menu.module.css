@@ -1,0 +1,69 @@
+.wrapper {
+   width: 30px;
+   height: 20px;
+   position: fixed;
+   z-index: 1;
+   top: 55px;
+   left: 20px;
+   display: block;
+   cursor: pointer;
+}
+
+.element,
+.element:after,
+.element:before {
+   height: 3px;
+   width: 100%;
+   background-color: #fff;
+   position: absolute;
+}
+
+.element {
+   top: 50%;
+   transition: 0.4s;
+}
+
+.element::after,
+.element:before {
+   content: '';
+}
+
+.element::after {
+   transform: rotate(0deg);
+   transition: 0.4s;
+   bottom: 7px;
+}
+
+.element:before {
+   transform: rotate(0deg);
+   transition: 0.4s;
+   top: 7px;
+}
+
+.element.active,
+.element.active:after,
+.element.active:before {
+   height: 3px;
+   width: 100%;
+   background-color: #fff;
+   position: absolute;
+}
+
+.element.active {
+   background: transparent;
+   transition: 0.4s;
+}
+
+.element.active:after {
+   bottom: 0px;
+   transform: rotate(-45deg);
+   transition: 0.4s;
+
+}
+
+.element.active:before {
+   top: 0px;
+
+   transform: rotate(45deg);
+   transition: 0.4s;
+}
