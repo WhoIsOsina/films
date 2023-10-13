@@ -5,6 +5,8 @@ import MyRating from './UI/rating/MyRating';
 import axios from 'axios';
 import { RateType } from '../types/RateType';
 import { UserType } from '../types/UserType';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 interface RatingProps {
    filmId: number;
@@ -15,7 +17,6 @@ interface RatingProps {
 
 const Rating: FC<PropsWithChildren<RatingProps>> = ({ filmId, user }) => {
    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-   const { isAuth, setIsAuth } = useContext(AuthContext)
    const [canRate, setCanRate] = useState(true)
    const [rate, setRate] = useState(0)
    const [userRate, setUserRate] = useState<number | null>(null)
@@ -73,14 +74,14 @@ const Rating: FC<PropsWithChildren<RatingProps>> = ({ filmId, user }) => {
 
    useEffect(() => {
       fetchFilmRates(filmId)
-   }, [canRate, isAuth])
+   }, [canRate, user])
 
    return (
       <div>
          <div>РЕЙТИНГ</div>
          <div className='film__page__rating'>{rate.toFixed(1)}/10</div>
          <hr style={{ margin: '10px 0', width: '100%' }} />
-         {(isAuth && canRate)
+         {(user && canRate)
             ? (
                <div>
                   <div style={{ textAlign: 'center', margin: '10px 0' }}>Оцените фильм</div>
@@ -97,7 +98,7 @@ const Rating: FC<PropsWithChildren<RatingProps>> = ({ filmId, user }) => {
                   </div>
                </div>
             )
-            : ((!canRate && isAuth) ? (
+            : ((!canRate && user) ? (
                <div>
                   <div>Вы оценили этот фильм на {userRate}</div>
                   <div style={{ fontSize: '14px', color: 'grey', cursor: 'pointer' }} onClick={removeRate}>ИЗМЕНИТЬ ОЦЕНКУ</div>

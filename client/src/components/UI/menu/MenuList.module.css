@@ -1,4 +1,6 @@
 .menu_list {
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+
    z-index: 1;
    position: absolute;
    display: flex;
@@ -18,4 +20,28 @@
 .menu_list.active {
    left: -25px;
    transition: 0.5s;
+}
+
+.menu_selector {
+   margin-bottom: 5px;
+   width: 200px;
+   height: 30px;
+   font-size: 18px;
+   font-weight: 200;
+   border: 2px solid rgb(197, 172, 238);
+}
+
+.menu_plus {
+   cursor: pointer;
+   display: inline-block;
+   text-align: center;
+   line-height: 25px;
+   padding: 0;
+   font-size: 24px;
+   border-radius: 5px;
+   margin-left: 5px;
+   width: 30px;
+   height: 30px;
+   background: #fff;
+   color: #000
 }

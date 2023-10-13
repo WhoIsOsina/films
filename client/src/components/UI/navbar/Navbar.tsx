@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AdminContext, AuthContext, SearchContext, UserContext } from '../../../context';
+import { setQuery } from '../../../store/queryReducer';
 import { RootState } from '../../../store/store';
 import { setUser, dropUser } from '../../../store/userReducer';
 import { RoleType } from '../../../types/RoleType';
@@ -19,7 +20,7 @@ const Navbar = () => {
    const [isAuth, setIsAuth] = useState(false)
    //const { user, setUser } = useContext(UserContext)
    const [isAdmin, setIsAdmin] = useState(false)
-   const { query, setQuery } = useContext(SearchContext)
+   const query = useSelector((state: RootState) => state.queryReducer.query)
    const [searchQuery, setSearchQuery] = useState('')
    const navigate = useNavigate()
 
@@ -49,7 +50,7 @@ const Navbar = () => {
    return (
       <div className='navbar'>
          <div
-            style={{ fontSize: 24, color: '#fff', cursor: 'pointer', marginLeft: 20 }}
+            className='rt_films'
             onClick={() => navigate('/films')}
          >
             RT_FILMS
@@ -60,7 +61,7 @@ const Navbar = () => {
             placeholder='Поиск по названию'
             onChange={(e) => {
                setSearchQuery(e.target.value)
-               setQuery(e.target.value)
+               dispatch(setQuery(e.target.value))
             }}
          />
          <div className='navbar__enter'
@@ -74,7 +75,7 @@ const Navbar = () => {
                      <AdminButton onClick={() => navigate('/films/add')}>Добавить</AdminButton>
                   }
                   <MyButton onClick={() => navigate('/users/' + user?.id)}>Мой профиль</MyButton>
-                  <MyButton onClick={logout}>выйти</MyButton>
+                  <MyButton onClick={logout}>Выйти</MyButton>
                </div>
                :
                <div>

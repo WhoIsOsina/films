@@ -1,3 +1,4 @@
+import { AddGenreDto } from '../genres/dto/addGenre.dto';
 import { AddFilmDto } from './dto/addFilm.dto';
 import { FilmsService } from './films.service';
 import { Body, Controller, Get, Param, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';

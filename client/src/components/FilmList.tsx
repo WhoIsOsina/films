@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState, FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SearchContext, SortContext } from '../context';
 import { useFetching } from '../hooks/useFetching';
 import { useFilms } from '../hooks/useFilms';
+import { RootState } from '../store/store';
+import { setYears } from '../store/yearsReducer';
 import { FilmType } from '../types/FilmType';
 import { SortType } from '../types/SortType';
 import CardFilmItem from './CardFilmItem';
@@ -10,35 +13,24 @@ import Loader from './UI/loader/Loader';
 
 
 const FilmList: FC = () => {
-   const [films, setFilms] = useState([])
-   const { query, setQuery } = useContext(SearchContext)
+   const dispatch = useDispatch()
+   const years = useSelector((state: RootState) => state.yearsReducer.years)
+   const [allFilms, setAllFilms] = useState<FilmType[]>([])
+   const [films, setFilms] = useState<FilmType[]>([])
+   const query = useSelector((state: RootState) => state.queryReducer.query)
    const { sortMech, setSortMech } = useContext(SortContext)
    const [sort, setSort] = useState<SortType>()
-   const searchedFilms = useFilms(films, query)
+   const searchedFilms = useFilms(allFilms, query, years)
    const [fetchFilms, isLoading, error] = useFetching(async () => {
       const response = await axios.get('http://localhost:5000/films')
-      const films: FilmType[] = response.data
-      //@ts-ignore
-      setFilms(films)
+      const allFilms: FilmType[] = response.data
+      setAllFilms(allFilms)
    })
-
-   function filterFilms() {
-      films.filter((film: FilmType) => Number(film.year) >= sortMech.year[0] && Number(film.year) <= sortMech.year[1])
-   }
 
    useEffect(() => {
       fetchFilms()
-      setSort(sortMech)
-   }, [])
+   }, [films])
 
-   if (sort?.year[0] !== sortMech.year[0] || sort?.year[1] !== sortMech.year[1]) {
-      setSort(sortMech)
-   }
-   useEffect(() => {
-      filterFilms()
-      //console.log(sortMech);
-
-   }, [sortMech, setSortMech, sort])
 
 
    return (
@@ -53,7 +45,7 @@ const FilmList: FC = () => {
                   <h1 style={{ color: '#fff' }}>ПРОИЗОШЛА ОШИБКА</h1>
                   :
                   <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                     {searchedFilms.map((film: FilmType, index) =>
+                     {searchedFilms?.map((film: FilmType, index) =>
                         <CardFilmItem key={index} film={film} />)}
                   </div>
                }

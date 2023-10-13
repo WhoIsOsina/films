@@ -6,6 +6,8 @@ import Update from './UI/update/Update';
 import Delete from './UI/delete/Delete';
 import Dislike from './UI/dislike/Dislike';
 import Like from './UI/like/Like';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 
 interface CommentProps {
@@ -17,7 +19,7 @@ interface CommentProps {
 }
 
 const CommentItem: FC<CommentProps> = ({ comment, onDelete, setIsChanging, setUpdatingComment, setUserComment }) => {
-   const { user, setUser } = useContext(UserContext)
+   const user = useSelector((state: RootState) => state.userReducer.user)
    const [commentState, setCommentState] = useState(comment)
    const { isAdmin, setIsAdmin } = useContext(AdminContext)
 

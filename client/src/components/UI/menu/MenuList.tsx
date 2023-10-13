@@ -8,57 +8,48 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 import { FilmType } from '../../../types/FilmType';
-import { changeMax, changeMin } from '../../../store/yearsReducer';
+import { setYears } from '../../../store/yearsReducer';
+import { GenreType } from '../../../types/GenreType';
+import { isNullishCoalesce, setEmitFlags } from 'typescript';
+import { style } from '@mui/system';
 
 
 
 const MenuList: FC = () => {
    //const { menuIsActive, setMenuIsActive } = useContext(MenuContext)
    const dispatch = useDispatch()
-   //const years = [useSelector((state: RootState) => state.yearsReducer.min), useSelector((state: RootState) => state.yearsReducer.max)]
+   const years = useSelector((state: RootState) => state.yearsReducer.years)
+   const [genres, setGenres] = useState<string[]>()
+   const [selectors, setSelectors] = useState<number[]>([0])
    const menuIsActive = useSelector((state: RootState) => state.menuReducer.value)
    const { sortMech, setSortMech } = useContext(SortContext)
-   // const [years, setYears] = useState<number[]>([])
-   const [minimum, setMinimum] = useState<number>(1900)
-   const [maximum, setMaximum] = useState<number>(2050)
    const [value, setValue] = React.useState<number[]>([1900, 2050]);
+   const [numbers, setNumbers] = useState<number[]>([])
    let classMenu = classes.menu_list
    if (menuIsActive) {
       classMenu = classes.menu_list + ' ' + classes.active
    }
 
-   const min = useSelector((state: RootState) => state.yearsReducer.min)
-   const max = useSelector((state: RootState) => state.yearsReducer.max)
 
    async function fetchMaxAndMin() {
       const response = await axios.get('http://localhost:5000/films')
          .then((response) => {
             const films: FilmType[] = response.data
             films.sort((a, b) => (Number(a.year)) - (Number(b.year)))
-            // setMinimum(Number(films[0].year))
-            //setMaximum(Number(films[films.length - 2].year))
-            //console.log('min - ', Number(films[0].year), ', max - ', Number(films[films.length - 2].year));
+            setNumbers([Number(films[0].year), Number(films.at(-1)?.year)])
          })
-         .finally(() => {
-            //console.log('min - ', minimum, ', max - ', maximum);
+   }
 
+   async function fetchAllGenres() {
+      const response = await axios.get('http://localhost:5000/genres')
+         .then((response) => {
+            const genres: string[] = []
+            const fetchedGenres: GenreType[] = response.data
+            fetchedGenres.map(genre => {
+               genres.push(genre.genre)
+            })
+            setGenres(genres)
          })
-
-      // const films: FilmType[] = (await axios.get<FilmType[]>('http://localhost:5000/films')).data
-      // films.sort((a, b) => (Number(a.year)) - (Number(b.year)))
-      //console.log(films[films.length - 2].year);
-      // setMinimum(Number(films[0].year))
-      // setMaximum(Number(films[films.length - 2].year))
-      // console.log(minimum);
-
-      // setYears([Number(films[0].year), Number(films[films.length - 2].year)])
-      // if (years) {
-      // setValue([minimum, maximum])
-      // }
-      //setValue(years)
-      //dispatch(changeMax(films[films.length - 2].year))
-      // setMin(Number(films[0].year));
-      // setMax(Number(films[films.length - 2].year))
    }
 
 
@@ -68,12 +59,25 @@ const MenuList: FC = () => {
 
    const handleChange = (event: Event, newValue: number | number[]) => {
       setValue(newValue as number[]);
-      //setYears(value)
    };
+
+   const addNewSelector = () => {
+      setSelectors([...selectors, selectors.at(-1)! + 1])
+   }
+
+   const removeSelector = (position: number) => {
+      selectors.splice(position, 1)
+      setSelectors(selectors)
+      console.log(selectors)
+   }
+
+   useEffect(() => {
+   }, [selectors])
 
    useEffect(() => {
       fetchMaxAndMin()
-   }, [])
+      fetchAllGenres()
+   }, [years])
 
    return (
       <div className={classMenu}>
@@ -84,8 +88,8 @@ const MenuList: FC = () => {
                   getAriaLabel={() => 'Year Range'}
                   value={value}
 
-                  min={minimum}
-                  max={maximum}
+                  min={numbers[0]}
+                  max={numbers[1]}
                   step={1}
                   onChange={handleChange}
                   valueLabelDisplay="on"
@@ -93,13 +97,24 @@ const MenuList: FC = () => {
                   style={{ marginTop: '35px', width: '250px' }}
                />
             </Box>
+            ЖАНР
+            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+               {selectors.map(s =>
+                  <div style={{ display: 'flex' }}>
+                     <select className={classes.menu_selector} onChange={() => console.log(s)} key={s}>
+                        {genres?.map(g =>
+                           <option>{g}</option>
+                        )}
+                     </select>
+                     <div className={classes.menu_plus} onClick={() => removeSelector(s)}>-</div>
+
+                  </div>
+               )}
+               <div className={classes.menu_plus} onClick={addNewSelector}>+</div>
+            </div>
             <MyButton onClick={(e) => {
                e.preventDefault()
-               //console.log(value[0], value[1]);
-               dispatch(changeMin(value[0]))
-               dispatch(changeMax(value[1]))
-               console.log([min, max]);
-               // sortMech.year = years
+               dispatch(setYears([value[0], value[1]]))
                setSortMech(sortMech)
             }}>ПРИМЕНИТЬ</MyButton>
          </form>

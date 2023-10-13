@@ -5,7 +5,8 @@
 }
 
 #root {
-   background-color: rgb(48, 48, 48);
+   background: rgb(120, 144, 92);
+   background: radial-gradient(circle, rgba(120, 144, 92, 1) 0%, rgba(69, 95, 121, 1) 58%);
    max-width: 100vw;
    min-height: 100vh;
    display: flex;
@@ -20,6 +21,17 @@
    align-items: center;
 }
 
+.rt_films {
+   font-size: 24px;
+   color: #fff;
+   cursor: pointer;
+   margin-left: 20px;
+}
+
+.rt_films:hover {
+   text-shadow: 2px 2px 2px #43466e;
+}
+
 .signIn {
    width: 800px;
    display: flex;
@@ -31,7 +43,7 @@
    width: 100%;
    height: 50px;
    margin-bottom: 30px;
-   background: #000;
+   background: #000000a2;
    display: flex;
    z-index: 5;
    justify-content: space-between;
@@ -53,7 +65,18 @@
    padding: 5px;
    height: calc(350px + 100vh/50);
    background-color: rgb(124, 124, 124);
+   border-radius: 15px;
    cursor: pointer;
+   transition: all 0.5s;
+   position: relative;
+}
+
+.film__card:hover {
+   background-color: rgb(197, 172, 238);
+   transition: all 0.5s;
+   width: calc(260px + 100vw/45);
+   height: calc(360px + 100vh/50);
+
 
 }
 
@@ -61,17 +84,21 @@
    width: 100%;
    height: 80%;
    position: relative;
+   border-radius: 15px;
 }
 
 .film__card__rating_block {
    position: absolute;
    width: 100%;
    height: 20%;
-   background-color: rgba(0, 0, 0, 0.527);
+   background-color: rgba(0, 0, 0, 0.671);
    display: flex;
    align-items: center;
    justify-content: center;
+   border-radius: 15px 15px 0 0;
+
 }
+
 
 .film__card__rating {
    width: 100%;
@@ -103,6 +130,9 @@
    width: 100%;
    height: 100%;
    object-fit: cover;
+   border-radius: 15px 15px 0 0;
+
+
 }
 
 .film__description__wrapper {
@@ -119,13 +149,14 @@
    left: 0;
    right: 0;
    padding: 5px 10px;
+   border-radius: 0px 0px 15px 15px;
    display: flex;
    flex-direction: column;
    align-items: flex-start;
    justify-content: space-between;
    color: #fff;
    font-size: 18px;
-   background: #000;
+   background: #000000;
 }
 
 
@@ -148,20 +179,20 @@
 
 .background__film {
    position: absolute;
+   height: 50vw;
    width: 80vw;
-   height: 44vw;
    overflow: hidden;
 }
 
 .black {
    background: rgba(0, 0, 0, 0.7);
    position: absolute;
-   height: 50vw;
+   height: 100%;
    width: 80vw;
 }
 
 .background__film__page {
-   height: 50vw;
+   height: 100%;
    position: absolute;
    background-color: transparent;
 }
@@ -195,7 +226,9 @@
 .film__page__trailer {
    margin-top: 10px;
    margin-bottom: 10px;
+   object-fit: cover;
    width: 30vw;
+   height: 17vw;
    border: 2px solid #fff;
 }
 

@@ -1,6 +1,7 @@
 import { Rate } from './Rates.entity';
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Comment } from './Comment.entity';
+import { Genre } from './Genre.entity';
 
 @Entity({ name: 'films' })
 export class Film {
@@ -17,9 +18,6 @@ export class Film {
    year: string;
 
    @Column()
-   genre: string;
-
-   @Column()
    picture: string;
 
    @Column()
@@ -30,4 +28,8 @@ export class Film {
 
    @OneToMany(() => Comment, (comment) => comment.film)
    comments: Comment[]
+
+   @ManyToMany(() => Genre)
+   @JoinTable()
+   genres: Genre[]
 }

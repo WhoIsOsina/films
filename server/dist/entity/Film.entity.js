@@ -13,6 +13,7 @@ exports.Film = void 0;
 var Rates_entity_1 = require("./Rates.entity");
 var typeorm_1 = require("typeorm");
 var Comment_entity_1 = require("./Comment.entity");
+var Genre_entity_1 = require("./Genre.entity");
 var Film = /** @class */ (function () {
     function Film() {
     }
@@ -35,10 +36,6 @@ var Film = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], Film.prototype, "genre", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
     ], Film.prototype, "picture", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
@@ -52,6 +49,11 @@ var Film = /** @class */ (function () {
         (0, typeorm_1.OneToMany)(function () { return Comment_entity_1.Comment; }, function (comment) { return comment.film; }),
         __metadata("design:type", Array)
     ], Film.prototype, "comments", void 0);
+    __decorate([
+        (0, typeorm_1.ManyToMany)(function () { return Genre_entity_1.Genre; }),
+        (0, typeorm_1.JoinTable)(),
+        __metadata("design:type", Array)
+    ], Film.prototype, "genres", void 0);
     Film = __decorate([
         (0, typeorm_1.Entity)({ name: 'films' })
     ], Film);

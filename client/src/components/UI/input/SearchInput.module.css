@@ -3,6 +3,13 @@
    height: 15px;
    padding: 5px;
    font-size: 18px;
-   border: 5px solid rgb(124, 124, 124);
+   border: 5px solid rgba(26, 26, 26, 0.842);
    border-radius: 20px;
+   background: rgb(175, 174, 174);
+   transition: all 0.5s;
+}
+
+.searchInput:focus {
+   background: rgb(238, 238, 238);
+   transition: all 0.5s;
 }

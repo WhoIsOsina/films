@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { ButtonHTMLAttributes, FC, PropsWithChildren, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { UserContext } from '../../../context';
 import { RateType } from '../../../types/RateType';
 import classes from './MyRating.module.css'
@@ -9,7 +10,6 @@ interface RatingProps {
 }
 
 const MyRating: FC<PropsWithChildren<RatingProps>> = ({ children, onClick }) => {
-   const { user, setUser } = useContext(UserContext)
 
 
    return (

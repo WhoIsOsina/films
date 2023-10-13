@@ -1,9 +1,10 @@
+import { GenreType } from './GenreType';
 import { RateType } from './RateType';
 export interface FilmType {
    id: number;
    name: string;
    year: string;
-   genre: string[];
+   genres: GenreType[];
    director: string;
    picture: string;
    video: string;

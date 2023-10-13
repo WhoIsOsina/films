@@ -1,5 +1,4 @@
 import React, { FC, useState, useContext, PropsWithChildren } from 'react';
-import YearInput from '../input/YearInput';
 import classes from './Menu.module.css'
 import { Slider } from '@mui/material';
 import { MenuContext } from '../../../context';

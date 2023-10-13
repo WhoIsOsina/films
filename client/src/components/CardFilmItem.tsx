@@ -11,6 +11,7 @@ export interface FilmProps {
 const CardFilmItem: FC<FilmProps> = ({ film }) => {
    const navigate = useNavigate()
    const [rate, setRate] = useState<number | null>()
+   const [genres, setGenres] = useState<string>()
 
 
    const fetchFilmRates = async (filmId: number | undefined) => {
@@ -27,8 +28,18 @@ const CardFilmItem: FC<FilmProps> = ({ film }) => {
          });
    }
 
+   const joinGenres = async () => {
+      const genre: string[] = []
+      film.genres.map(g => {
+         genre.push(g.genre)
+      })
+      setGenres(genre.join(', '))
+   }
+
    useEffect(() => {
       fetchFilmRates(film.id)
+      joinGenres()
+      console.log(film.genres)
    }, [])
 
    return (
@@ -45,7 +56,7 @@ const CardFilmItem: FC<FilmProps> = ({ film }) => {
                   <div>{film.name}</div>
                   <div>{film.year}</div>
                </div>
-               <div className='film__genre'>{film.genre}</div>
+               <div className='film__genre'>{genres}</div>
             </div>
          </div>
       </div>

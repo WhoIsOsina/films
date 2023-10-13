@@ -54,31 +54,29 @@ function App() {
   return (
     <Provider store={store}>
       <AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
-        <SearchContext.Provider value={{ query, setQuery }}>
-          <MenuContext.Provider value={{ menuIsActive, setMenuIsActive }}>
-            <SortContext.Provider value={{ sortMech, setSortMech }}>
-              <BrowserRouter>
-                <Navbar />
-                {user
-                  ? <Routes>
-                    {isAdmin && <Route path='/films/add' element={<AddFilmPage />} />}
-                    <Route path='/films' element={<MainPage />} />
-                    <Route path='/films/:id' element={<FilmIdPage />} />
-                    <Route path='/users/:id' element={<UserPage />} />
-                    <Route path='*' element={<Navigate replace to='/films' />} />
-                  </Routes>
-                  : <Routes>
-                    <Route path='/registration' element={<Registration />} />
-                    <Route path='/login' element={<LoginPage />} />
-                    <Route path='/films' element={<MainPage />} />
-                    <Route path='/films/:id' element={<FilmIdPage />} />
-                    <Route path='*' element={<Navigate replace to='/films' />} />
-                  </Routes>
-                }
-              </BrowserRouter>
-            </SortContext.Provider>
-          </MenuContext.Provider>
-        </SearchContext.Provider>
+        <MenuContext.Provider value={{ menuIsActive, setMenuIsActive }}>
+          <SortContext.Provider value={{ sortMech, setSortMech }}>
+            <BrowserRouter>
+              <Navbar />
+              {user
+                ? <Routes>
+                  {isAdmin && <Route path='/films/add' element={<AddFilmPage />} />}
+                  <Route path='/films' element={<MainPage />} />
+                  <Route path='/films/:id' element={<FilmIdPage />} />
+                  <Route path='/users/:id' element={<UserPage />} />
+                  <Route path='*' element={<Navigate replace to='/films' />} />
+                </Routes>
+                : <Routes>
+                  <Route path='/registration' element={<Registration />} />
+                  <Route path='/login' element={<LoginPage />} />
+                  <Route path='/films' element={<MainPage />} />
+                  <Route path='/films/:id' element={<FilmIdPage />} />
+                  <Route path='*' element={<Navigate replace to='/films' />} />
+                </Routes>
+              }
+            </BrowserRouter>
+          </SortContext.Provider>
+        </MenuContext.Provider>
       </AdminContext.Provider>
     </Provider>
   );

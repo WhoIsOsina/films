@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilmsModule = void 0;
+var genres_module_1 = require("./../genres/genres.module");
 var files_module_1 = require("./../files/files.module");
 var common_1 = require("@nestjs/common");
 var films_controller_1 = require("./films.controller");
@@ -18,7 +19,7 @@ var FilmsModule = /** @class */ (function () {
         (0, common_1.Module)({
             controllers: [films_controller_1.FilmsController],
             providers: [films_service_1.FilmsService],
-            imports: [files_module_1.FilesModule],
+            imports: [files_module_1.FilesModule, genres_module_1.GenresModule],
             exports: [films_service_1.FilmsService]
         })
     ], FilmsModule);

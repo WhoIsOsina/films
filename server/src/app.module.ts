@@ -8,6 +8,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { RatingModule } from './rating/rating.module';
 import { CommentsModule } from './comments/comments.module';
 import { RolesModule } from './roles/roles.module';
+import { GenresModule } from './genres/genres.module';
 import * as path from 'path';
 
 
@@ -23,7 +24,8 @@ import * as path from 'path';
       }),
       RatingModule,
       CommentsModule,
-      RolesModule
+      RolesModule,
+      GenresModule
    ]
 })
 export class AppModule { }

@@ -17,6 +17,7 @@ var serve_static_1 = require("@nestjs/serve-static");
 var rating_module_1 = require("./rating/rating.module");
 var comments_module_1 = require("./comments/comments.module");
 var roles_module_1 = require("./roles/roles.module");
+var genres_module_1 = require("./genres/genres.module");
 var path = require("path");
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -34,7 +35,8 @@ var AppModule = /** @class */ (function () {
                 }),
                 rating_module_1.RatingModule,
                 comments_module_1.CommentsModule,
-                roles_module_1.RolesModule
+                roles_module_1.RolesModule,
+                genres_module_1.GenresModule
             ]
         })
     ], AppModule);

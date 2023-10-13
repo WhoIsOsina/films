@@ -57,18 +57,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilmsService = void 0;
+var genres_service_1 = require("./../genres/genres.service");
 var files_service_1 = require("./../files/files.service");
 var Film_entity_1 = require("./../entity/Film.entity");
 var data_source_1 = require("./../data-source");
 var common_1 = require("@nestjs/common");
 var FilmsService = /** @class */ (function () {
-    function FilmsService(filesService) {
+    function FilmsService(filesService, genresService) {
         this.filesService = filesService;
+        this.genresService = genresService;
         this.filmRepository = data_source_1.AppDataSource.getRepository(Film_entity_1.Film);
     }
     FilmsService.prototype.addFilm = function (dto, picture, video) {
         return __awaiter(this, void 0, void 0, function () {
-            var picturePath, videoPath, film;
+            var picturePath, videoPath, genres_1, film_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -79,10 +82,50 @@ var FilmsService = /** @class */ (function () {
                         return [4 /*yield*/, this.filesService.saveFile(files_service_1.FileType.VIDEO, video)];
                     case 2:
                         videoPath = _a.sent();
-                        return [4 /*yield*/, this.filmRepository.save(__assign(__assign({}, dto), { picture: picturePath, video: videoPath }))];
+                        genres_1 = [];
+                        if (typeof dto.genre === 'object') {
+                            dto.genre.map(function (g) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, this.genresService.getGenreByName(g.genre)];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); });
+                        }
+                        else {
+                            dto.genre.split(',').map(function (g) { return __awaiter(_this, void 0, void 0, function () {
+                                var genre;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, this.genresService.getGenreByName(g)];
+                                        case 1:
+                                            genre = _a.sent();
+                                            console.log(genre.genre);
+                                            genres_1.push(genre);
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); });
+                        }
+                        console.log(genres_1);
+                        return [4 /*yield*/, this.filmRepository.save(__assign(__assign({}, dto), { picture: picturePath, video: videoPath, genres: genres_1 }))];
                     case 3:
-                        film = _a.sent();
-                        return [2 /*return*/, film];
+                        film_1 = _a.sent();
+                        genres_1.map(function (g) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, data_source_1.AppDataSource.query("INSERT INTO films_genres_genre (\"filmsId\", \"genreId\") VALUES($1, $2)", [film_1.id, g.id])];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); });
+                        console.log(film_1);
+                        return [2 /*return*/, film_1];
                     case 4: return [2 /*return*/];
                 }
             });
@@ -93,7 +136,7 @@ var FilmsService = /** @class */ (function () {
             var films;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.filmRepository.find({ relations: { rates: true } })];
+                    case 0: return [4 /*yield*/, this.filmRepository.find({ relations: { rates: true, genres: true } })];
                     case 1:
                         films = _a.sent();
                         return [2 /*return*/, films];
@@ -106,7 +149,7 @@ var FilmsService = /** @class */ (function () {
             var film;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.filmRepository.findOne({ where: { id: id }, relations: { rates: true } })];
+                    case 0: return [4 /*yield*/, this.filmRepository.findOne({ where: { id: id }, relations: { rates: true, genres: true } })];
                     case 1:
                         film = _a.sent();
                         return [2 /*return*/, film];
@@ -116,7 +159,8 @@ var FilmsService = /** @class */ (function () {
     };
     FilmsService = __decorate([
         (0, common_1.Injectable)(),
-        __metadata("design:paramtypes", [files_service_1.FilesService])
+        __metadata("design:paramtypes", [files_service_1.FilesService,
+            genres_service_1.GenresService])
     ], FilmsService);
     return FilmsService;
 }());

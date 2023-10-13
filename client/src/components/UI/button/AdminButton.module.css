@@ -1,12 +1,17 @@
 .adminButton {
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
    padding: 5px 10px;
    margin: 5px 5px 5px 0;
-   background: #fff;
-   border: 2px solid rgb(70, 124, 241);
+   background: #9ca2f0;
+   border: 2px solid rgb(229, 227, 243);
    border-radius: 4px;
-   color: rgb(70, 124, 241);
-   text-transform: uppercase;
-   font-weight: bolder;
+   color: rgb(8, 1, 14);
    font-size: 18px;
    cursor: pointer;
+   transition: all 0.5s;
+}
+
+.adminButton:hover {
+   padding: 8px 13px;
+   transition: all 0.5s;
 }
